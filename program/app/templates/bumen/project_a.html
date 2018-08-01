@@ -1,0 +1,124 @@
+{% extends 'common/base_a.html' %}
+
+{% block title %} 开发部{% endblock %}
+
+{% block page_content %}
+
+ <div class="container-fluid">
+
+			<h1 style="text-align: center">项目管理</h1>
+             <form class="navbar-form navbar-left">
+                        <div class="form-group">
+                          <input type="text" class="form-control" placeholder="请输入你想查找的用户名">
+                        </div>
+                        <button type="submit" class="btn btn-default">查找</button>
+             </form>
+
+            <div class="tabbable tabs-left">
+
+                    <ul class="nav nav-tabs" >
+                    <li class="active"><a href="#tab1" data-toggle="tab">增加项目</a></li>
+                    <li><a href="#tab2" data-toggle="tab">查看项目</a></li>
+                    <li><a href="#tab3" data-toggle="tab">进度修改</a></li>
+                    <li><a href="#tab4" data-toggle="tab">删除项目</a></li>
+                    </ul>
+                 <div class="tab-content">
+                    <div class="tab-pane active" id="tab1">
+                        <div style="width: 400px;height: 500px;position: absolute;top:200px;left: 500px;">
+                        {{ wtf.quick_form(form) }}
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab2">
+						<table class="table table-bordered">
+
+                                <tr>
+
+                                    <td>项目名称</td>
+                                    <td>项目所属部门</td>
+                                    <td>项目进度</td>
+
+                                    <td>项目组成员</td>
+
+                                </tr>
+{##}
+                            {% for i in pro %}
+
+                                <tr>
+
+                                    <td>{{ i.name }}</td>
+                                    <td>{{ i.sections }}</td>
+                                    <td>{{ i.progress }}</td>
+                                    <td>{% for j in i.user %}
+                                        {{ j.username +' ' }}
+                                    {% endfor %}</td>
+                                </tr>
+
+                            {% endfor %}
+                        </table>
+
+				    </div>
+                     <div class="tab-pane" id="tab3">
+                        <table class="table table-bordered">
+
+                                <tr>
+
+                                    <td>项目名称</td>
+                                    <td>项目所属部门</td>
+                                    <td>项目进度</td>
+
+                                    <td>管理</td>
+
+                                </tr>
+{##}
+                            {% for i in pro %}
+
+                                <tr>
+
+                                    <td>{{ i.name }}</td>
+                                    <td>{{ i.sections }}</td>
+                                    <td>{{ i.progress }}</td>
+                                    <td>
+
+                                          <select  style="height: 30px;width: 80px" >
+                                              <option value="已完成">已完成</option>
+                                               <option value="未完成">未完成</option>
+
+                                          </select>
+                                        <a href="{{ url_for(endpoint1,id= i.id) }}"><button class="btn">修改</button></a>
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+                        </table>
+                     </div>
+                     <div class="tab-pane" id="tab4">
+                        <table class="table table-bordered">
+
+                                <tr>
+
+                                    <td>项目名称</td>
+                                    <td>项目所属部门</td>
+                                    <td>项目进度</td>
+                                    <td>管理</td>
+
+                                </tr>
+                            {% for i in pro %}
+                                {% if i.user.all() == [] %}
+                                <tr>
+                                    <td>{{ i.name }}</td>
+                                    <td>{{ i.sections }}</td>
+                                    <td>{{ i.progress }}</td>
+                                    <td>
+                                        <a href="{{ url_for(endpoint,id=i.id) }}"><button class="btn">删除</button></a>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+
+                        </table>
+                     </div>
+                    </div>
+            </div>
+ </div>
+
+{% endblock %}

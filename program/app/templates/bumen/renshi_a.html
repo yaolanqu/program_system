@@ -1,0 +1,188 @@
+{% extends 'common/base_a.html' %}
+
+{% block title %} 人事部{% endblock %}
+
+{% from 'common/macros.html' import pagination_show %}
+
+{% block page_content %}
+
+    <h1 style="text-align: center">人事管理</h1>
+
+
+    <div class="tabbable tabs-left">
+
+
+        <ul class="nav nav-tabs" >
+            <li class="active"><a href="#tab1" data-toggle="tab">增加用户</a></li>
+            <li><a href="#tab2" data-toggle="tab">查看用户</a></li>
+            <li><a href="#tab3" data-toggle="tab">职位变更</a></li>
+            <li><a href="#tab4" data-toggle="tab">部门变更</a></li>
+            <li><a href="#tab5" data-toggle="tab">考勤外派</a></li>
+            <li><a href="#tab6" data-toggle="tab">删除用户</a></li>
+        </ul>
+        <div class="tab-content" >
+            <div class="tab-pane active" id="tab1">
+            <div style="width: 400px;height: 500px;position: absolute;top:200px;left: 500px;">
+                {{ wtf.quick_form(form) }}
+                {{ form.csrf_token }}
+            </div>
+            </div>
+            <div class="tab-pane" id="tab2">
+
+                 <table class="table table-bordered">
+                 <tr style="height: 50px">
+                     <td>姓名</td>
+                     <td>性别</td>
+                     <td>年龄</td>
+                     <td>身份证号</td>
+                     <td>手机号码</td>
+                     <td>邮箱</td>
+                 </tr>
+                 {% for j in users %}
+                     <tr style="height: 50px">
+                     <td>{{ j.username }}</td>
+                     <td>{{ j.sex }}</td>
+                     <td>{{ j.age }}</td>
+                     <td>{{ j.idCard }}</td>
+                     <td>{{ j.phonenumber }}</td>
+                     <td>{{ j.email }}</td>
+                     </tr>
+                 {% endfor %}
+                 </table>
+                {{ pagination_show(pagination, 'admin.renshi_a') }}
+            </div>
+            <div class="tab-pane" id="tab3">
+                 <table class="table table-bordered">
+                 <tr  style="height: 50px">
+                     <td >姓名</td>
+                     <td>部门</td>
+                     <td>职位</td>
+                     <td>管理</td>
+                 </tr>
+                 <tr  style="height: 50px">
+                     {% for i in users %}
+                     <td>{{ i.username }}</td>
+                     <td>{{ i.section }}</td>
+                     <td>{{ i.part }}</td>
+                         <td>
+                         <a href="{{ url_for(endpoint2,id=i.id) }}">
+                             <button name="" value="">
+                                 {% if i.part == '员工' %}
+                                 升为部长
+                                 {% else %}
+                                 降为员工
+                                 {% endif %}
+                             </button>
+                         </a>
+                         </td>
+                         </tr>
+                     {% endfor %}
+                 </tr>
+                 </table>
+            {{ pagination_show(pagination, 'admin.renshi_a') }}
+            </div>
+            <div class="tab-pane" id="tab4">
+
+                <table class="table table-bordered">
+                    <tr  style="height: 50px">
+                        <td>姓名</td>
+                        <td>部门</td>
+                        <td>职位</td>
+                        <td>管理</td>
+                    </tr>
+                    {% for i in users %}
+                    <tr  style="height: 50px">
+                        <td>{{ i.username }}</td>
+                        <td>{{ i.section }}</td>
+                        <td>{{ i.part }}</td>
+                        <td class="options">
+                            <select  style="height: 30px;width: 80px" name = 'update_sec'>
+                              <option value="开发部">开发部</option>
+                              <option value="后勤部">后勤部</option>
+                            </select>
+                            <a href="{{ url_for(endpoint6,id=i.id)}}"><button class="btn" >确定</button> </a>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {{ pagination_show(pagination, 'admin.renshi_a') }}
+            </div>
+            <div class="tab-pane" id="tab5">
+                <table class="table table-bordered">
+                    <tr  style="height: 50px">
+                        <td>姓名</td>
+                        <td>部门</td>
+                        <td>职位</td>
+                        <td>请假</td>
+                        <td>旷工</td>
+                        <td>外派</td>
+                    </tr>
+                    {% for i in users %}
+                    <tr  style="height: 50px">
+                        <td>{{ i.username }}</td>
+                        <td>{{ i.section }}</td>
+                        <td>{{ i.part }}</td>
+                        <td>
+                            <span style="float:left;" class="absentNum">{{ i.absent }}</span>
+                            <div style="float:right">
+                                <a href="{{url_for(endpoint4,id = i.id)  }}" ><button style="font-size:18px;" class="des">-</button></a>
+                                <a href="{{url_for(endpoint5,id = i.id)  }}" ><button style="font-size:18px;" class="adds">+</button></a>
+                            </div>
+                        </td>
+                        <td>{{ i.leave }}</td>
+                        <td>{{ i.assignment }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {{ pagination_show(pagination, 'admin.renshi_a') }}
+            </div>
+            <div class="tab-pane" id="tab6">
+                <table class="table table-bordered">
+
+                                <tr  style="height: 50px">
+                                    <td>姓名</td>
+                                    <td>性别</td>
+                                    <td>年龄</td>
+                                    <td>部门</td>
+                                    <td>职位</td>
+                                    <td>管理</td>
+                                </tr>
+                                {% for i in users %}
+                                    <tr  style="height: 50px">
+                                        <td>{{ i.username }}</td>
+                                        <td>{{ i.sex}}</td>
+                                        <td>{{ i.age }}</td>
+                                        <td>{{ i.section }}</td>
+                                        <td>{{ i.part }}</td>
+                                        <td>
+                                            <a href="{{ url_for(endpoint1,id=i.id) }}"> <button class="btn btn-danger">删除</button></a>
+                                        </td>
+                                </tr>
+
+                                {% endfor %}
+                            </table>
+
+                    {{ pagination_show(pagination, 'admin.renshi_a') }}
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+    <script>
+        console.log($(".des"));
+        $(".table .des").bind("click",function(){
+            console.log($(this),$(".absentNum").eq($(this).index()).html(),$(this).index());
+            num = parseInt($(".absentNum").eq($(this).index()).html()) - 1;
+            $(".absentNum").eq($(this).index()).html(num);
+        });
+
+    </script>
+
+{% endblock %}

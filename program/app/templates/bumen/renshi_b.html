@@ -1,0 +1,117 @@
+{% extends 'common/base.html' %}
+
+{% block title %} 人事部{% endblock %}
+
+{% from 'common/macros.html' import pagination_show %}
+
+{% block page_content %}
+    <div class="container-fluid">
+
+
+        <div class="tabbable" id="tabs-771136">
+            <h1 style="text-align: center">人事管理</h1>
+        </div>
+
+        <div class="tab-pane" id="panel-472512">
+
+
+            <h2>在职员工：</h2>
+            <table class="table table-bordered">
+
+                <tr>
+                    <td>姓名</td>
+                    <td>性别</td>
+                    <td>年龄</td>
+                    <td>身份证</td>
+                    <td>手机号</td>
+                    <td>邮箱</td>
+                    <td>部门</td>
+                    <td>职位</td>
+                    <td>旷工</td>
+                    <td>请假</td>
+                    <td>外派</td>
+                </tr>
+                {% for i in user %}
+                    <tr>
+                        <td>{{ i.username }}</td>
+                        <td>{{ i.sex}}</td>
+                        <td>{{ i.age }}</td>
+                        <td>{{  i.idCard }}</td>
+                        <td>{{ i.phonenumber }}</td>
+                        <td>{{ i.email }}</td>
+                        <td>{{ i.section }}</td>
+                        <td>{{ i.part }}</td>
+                        <td style="text-align: center">{{ i.leave }} &nbsp;&nbsp;
+                             <a href="{{url_for(endpoint2,id = i.id)  }}" ><button style="font-size:18px;" class="des">-</button></a>
+                                <a href="{{url_for(endpoint3,id = i.id)  }}" ><button style="font-size:18px;" class="adds">+</button></a>
+                        </td>
+                        <td style="text-align: center">{{ i.absent }} &nbsp;&nbsp;
+                            <a href="#">
+                            <button class="layer_btn" style="padding-right:0; ">+1</button>
+                            </a>
+                        </td>
+                        <td style="text-align: center">{{ i.assignment }} &nbsp;&nbsp;
+                            <a href="#">
+                            <button class="layer_btn" style="padding-right:0; ">+1</button>
+                            </a>
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+            </table>
+        {{ pagination_show(pagination, 'user.renshi') }}
+                                    <div>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>姓名</td>
+                                    <td>性别</td>
+                                    <td>年龄</td>
+                                    <td>身份证号</td>
+                                    <td>手机号</td>
+                                    <td>邮箱</td>
+                                    <td>职位</td>
+                                    <td>管理</td>
+
+                                </tr>
+                                {% for j in nosec_user %}
+                                <tr>
+                                    <td>{{ j.username }}</td>
+                                    <td>{{ j.sex}}</td>
+                                    <td>{{ j.age }}</td>
+                                    <td>{{  j.idCard }}</td>
+                                    <td>{{ j.phonenumber }}</td>
+                                    <td>{{ j.email }}</td>
+                                    <td>{{ j.part }}</td>
+                                    <td>
+
+
+                                         <select style="height: 30px;width: 80px" name = 'add_sec'>
+
+                                          <option>开发部</option>
+                                          <option>后勤部</option>
+
+                                        </select>
+                                        <a href="{{ url_for(endpoint4,id = j.id)}}"><button type="submit" class="btn">确定</button></a>
+
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+
+                            <h2>不在职员工：</h2>
+
+
+                        </table>
+                                    {{ pagination_show(pagination2, 'user.renshi') }}</div>
+
+        </div>
+</div>
+<script>
+$('button#1').click(function(){
+    alert(
+        '确定吗？'
+    )
+})
+</script>
+{% endblock %}

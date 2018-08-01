@@ -1,0 +1,175 @@
+{% extends 'common/base.html' %}
+
+{% block title %}人事部{% endblock %}
+
+{% from 'common/macros.html' import pagination_show %}
+
+{% block content %}
+ <div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="tabbable" id="tabs-771136">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#panel-575684" data-toggle="tab">部门信息</a>
+					</li>
+                    <li>
+						<a href="#panel-472513" data-toggle="tab">个人信息</a>
+					</li>
+					<li>
+						<a href="#panel-472512" data-toggle="tab">人事查询</a>
+					</li>
+
+
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="panel-575684">
+						<p>
+                          郑州实创公司人事管理机构通过规划制定、招聘实施、开发培训、岗位聘任、考核评估、薪酬管理、合同管理、档案服务、退休保障等一系列人事事务，致力于建立以师资人才为核心的总量适度、结构优化、效率显著的符合建设世界一流大学需要的整体人才队伍。
+
+  根据大学的管理体系，郑州实创公司人事管理机构包括北京大学人事部、北京大学医学部人事处、北京大学各附属医院人事处。北京大学人事部统筹学校整体人事人才政策并具体负责北京大学校本部人事人才工作，北京大学医学部人事处具体负责北京大学医学部人事人才工作并协调医学教研人员聘任，各附属医院人事处具体负责附属医院人事人才工作。
+
+  北京大学人事部设规划与调配、工资福利、劳动合同与社会保险、开发与培训、博士后管理、人事档案、综合服务等办公室实施人事管理、提供人事服务。北京大学离退休工作部和北京大学人才交流与培训中心为工作的便利，与北京大学人事部合署办公。北京大学各院系在学校人事政策和规划范围内行使人事管理权力、承担人事管理责任，并通过人事负责人和人事干事负责本院系日常人事管理与服务工作。
+						</p>
+					</div>
+					<div class="tab-pane" id="panel-472513">
+
+						<table class="table table-bordered">
+
+                            <tr>
+                                <td>姓名</td>
+                                <td>性别</td>
+                                <td>年龄</td>
+                                <td>身份证</td>
+                                <td>手机号</td>
+                                <td>邮箱</td>
+                                <td>部门</td>
+                                <td>职位</td>
+                                <td>旷工</td>
+                                <td>请假</td>
+                                <td>外派</td>
+
+                            </tr>
+                                <tr>
+                                    <td>{{ current_user.username }}</td>
+                                    <td>{{ current_user.sex}}</td>
+                                    <td>{{ current_user.age }}</td>
+                                    <td>{{  current_user.idCard }}</td>
+                                    <td>{{ current_user.phonenumber }}</td>
+                                    <td>{{ current_user.email }}</td>
+                                    <td>{{ current_user.section }}</td>
+                                    <td>{{ current_user.part }}</td>
+                                    <td>{{ current_user.leave }}</td>
+                                    <td>{{ current_user.absent }}</td>
+                                    <td>{{ current_user.assignment }}</td>
+{#                                    <td>{{ u. }}</td>#}
+                                </tr>
+
+                        </table>
+
+                    </div>
+                    <div class="tab-pane" id="panel-472512">
+
+
+                    <h2>在职员工：</h2>
+						<table class="table table-bordered">
+
+                            <tr>
+                                <td>姓名</td>
+                                <td>性别</td>
+                                <td>年龄</td>
+                                <td>身份证</td>
+                                <td>手机号</td>
+                                <td>邮箱</td>
+                                <td>部门</td>
+                                <td>职位</td>
+                                <td>旷工</td>
+                                <td>请假</td>
+                                <td>外派</td>
+
+                            </tr>
+                            {% for i in users %}
+                                <tr>
+                                    <td>{{ i.username }}</td>
+                                    <td>{{ i.sex}}</td>
+                                    <td>{{ i.age }}</td>
+                                    <td>{{  i.idCard }}</td>
+                                    <td>{{ i.phonenumber }}</td>
+                                    <td>{{ i.email }}</td>
+                                    <td>{{ i.section }}</td>
+                                    <td>{{ i.part }}</td>
+                                    <td>{{ i.leave }}</td>
+                                    <td>{{ i.absent }}</td>
+                                    <td>{{ i.assignment }}</td>
+
+                                </tr>
+                                {% endfor %}
+                        </table>
+                    {{ pagination_show(pagination3, 'user.renshi') }}
+                        <div>
+
+                            <table class="table table-bordered" id="table">
+                                <tr>
+                                    <td>姓名</td>
+                                    <td>性别</td>
+                                    <td>年龄</td>
+                                    <td>身份证号</td>
+                                    <td>手机号</td>
+                                    <td>邮箱</td>
+                                    <td>职位</td>
+                                    <td>部门分配</td>
+                                </tr>
+                                {% for j in nosec_users %}
+                                <tr>
+                                    <td>{{ j.username }}</td>
+                                    <td>{{ j.sex}}</td>
+                                    <td>{{ j.age }}</td>
+                                    <td>{{  j.idCard }}</td>
+                                    <td>{{ j.phonenumber }}</td>
+                                    <td>{{ j.email }}</td>
+                                    <td>{{ j.part }}</td>
+                                    <td>
+
+
+                                         <select  style="height: 30px;width: 80px" name = 'add_sec'>
+
+                                          <option value="开发部">开发部</option>
+
+                                          <option value="后勤部">后勤部</option>
+
+                                        </select>
+                                        <a href="{{ url_for(endpoint2,id = j.id) }}"> <button  class="btn" >确定</button></a>
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            <h2>未分配员工：</h2>
+
+
+                        </table>
+                      {{ pagination_show(pagination4, 'user.renshi') }}
+                        </div>
+
+                    </div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript">
+        var Table = document.getElementById("table");
+        Table.onclick=function(e){
+            if(e.srcElement.tagName == 'SELECT'){
+                console.log(e.srcElement,e.srcElement.parentNode.parentNode.getElementsByTagName("td")[0].innerHTML);
+            }
+        }
+    </script>
+{% endblock %}

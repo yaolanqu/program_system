@@ -1,0 +1,115 @@
+{% extends 'common/base.html' %}
+
+{% block title %}开发部{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="tabbable" id="tabs-771136">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#panel-575684" data-toggle="tab">部门信息</a>
+					</li>
+                    <li>
+						<a href="#panel-472513" data-toggle="tab">个人信息</a>
+					</li>
+					<li>
+						<a href="#panel-472512" data-toggle="tab">项目查询</a>
+					</li>
+
+
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="panel-575684">
+						<p>
+							郑州实创有限公司一贯注重技术创新引领企业发展。研发中心成立于2005年，下设2会7部，在从化和四会两地设立研究基地，拥有实验室面积1000平方米，实验室苗圃500多亩，先后组建有广东省人居生态园林工程技术研究中心、广州市生态园林技术研究重点实验室、普邦园林企业科技特派员工作站。主要从事新优植物开发与应用、水体修复、土壤修复、工程新技术应用等领域的研究。中心拥有中高级职称人员100余人，专业涵盖风景园林、生态学、环境工程、植保、信息管理等专业。与中科院华南植物园等10多所高校/科研机构建立长期产学研合作关系，获批政府研发项目20余项，累计申请专利49项，发表论文百余篇。与中科院华南植物园等单位合作的《乡土植物在生态园林中应用的关键技术研究与产业化》获得广东省科技进步一等奖，与仲恺农业工程学院合作的《姜科园林植物优良品种选育、应用研究及推广示范》项目获得中国风景园林学会科技进步二等奖。
+						</p>
+					</div>
+					<div class="tab-pane" id="panel-472513">
+
+						<table class="table table-bordered">
+
+                            <tr>
+                                <td>姓名</td>
+                                <td>性别</td>
+                                <td>年龄</td>
+                                <td>身份证</td>
+                                <td>手机号</td>
+                                <td>邮箱</td>
+                                <td>部门</td>
+                                <td>职位</td>
+                                <td>旷工</td>
+                                <td>请假</td>
+                                <td>外派</td>
+
+                            </tr>
+                                <tr>
+                                    <td>{{ current_user.username }}</td>
+                                    <td>{{ current_user.sex}}</td>
+                                    <td>{{ current_user.age }}</td>
+                                    <td>{{  current_user.idCard }}</td>
+                                    <td>{{ current_user.phonenumber }}</td>
+                                    <td>{{ current_user.email }}</td>
+                                    <td>{{ current_user.section }}</td>
+                                    <td>{{ current_user.part }}</td>
+                                    <td>{{ current_user.leave }}</td>
+                                    <td>{{ current_user.absent }}</td>
+                                    <td>{{ current_user.assignment }}</td>
+{#                                    <td>{{ u. }}</td>#}
+                                </tr>
+
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="panel-472512">
+
+                        <h2>项目查询：</h2>
+						<table class="table table-bordered">
+
+                            <tr>
+
+                                <td>项目</td>
+                                <td>进度</td>
+                                <td>项目组成员</td>
+                            </tr>
+                            {% for i in p_b %}
+                            <tr>
+
+                                <td>{{ i.name }}</td>
+                                <td>{{ i.progress }}</td>
+                                <td>{% for j in i.user %}
+                                        {{ j.username +' ' }}
+                                    {% endfor %}</td>
+                            </tr>
+                            {% endfor %}
+
+                        </table>
+                    <h2>未接项目：</h2>
+                    <table class="table table-bordered">
+                        <tr>项目名称</tr>
+                        <tr>项目进度</tr>
+                        {% for i in p %}
+                            {% if i.sections == '后勤部' %}
+                            <tr>
+                                <td>{{ i.name }}</td>
+                                <td>{{ i.progress }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </table>
+                    <h2>增加新项目：</h2>
+                        <form class="navbar-form navbar-left" method="post" action="/user/kaifabu/">
+                        <div class="form-group">
+                          <input type="text" class="form-control" placeholder="请输入项目名" name="add"/>
+                        </div>
+                        <button type="submit" class="btn btn-default">增加</button>
+                        </form>
+                    </div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
